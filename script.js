@@ -9,9 +9,7 @@
   --border: #293550;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -23,10 +21,7 @@ body {
 }
 
 .hero,
-main {
-  width: min(1040px, 92%);
-  margin: 0 auto;
-}
+main { width: min(1040px, 92%); margin: 0 auto; }
 
 .hero {
   display: flex;
@@ -44,16 +39,9 @@ main {
   margin: 0;
 }
 
-h1 {
-  margin: 0.3rem 0;
-  font-size: clamp(1.8rem, 3vw, 2.6rem);
-}
+h1 { margin: 0.3rem 0; font-size: clamp(1.8rem, 3vw, 2.6rem); }
 
-.subtitle {
-  max-width: 70ch;
-  margin: 0;
-  color: var(--muted);
-}
+.subtitle { max-width: 70ch; margin: 0; color: var(--muted); }
 
 .login-btn,
 .chat-form button,
@@ -93,10 +81,7 @@ main {
   box-shadow: 0 8px 26px rgba(0, 0, 0, 0.25);
 }
 
-h2 {
-  margin: 0;
-  font-size: 1.2rem;
-}
+h2 { margin: 0; font-size: 1.2rem; }
 
 .subjects-grid {
   margin: 0.75rem 0 0;
@@ -114,11 +99,7 @@ h2 {
   font-size: 0.92rem;
 }
 
-.hint {
-  margin-top: 0.4rem;
-  color: var(--muted);
-}
-
+.hint { margin-top: 0.4rem; color: var(--muted); }
 
 .chat-log {
   min-height: 280px;
@@ -140,19 +121,10 @@ h2 {
   white-space: pre-wrap;
 }
 
-.message.user {
-  margin-left: auto;
-  background: #25304f;
-}
+.message.user { margin-left: auto; background: #25304f; }
+.message.bot { background: #1a2746; }
 
-.message.bot {
-  background: #1a2746;
-}
-
-.chat-form {
-  display: grid;
-  gap: 0.65rem;
-}
+.chat-form { display: grid; gap: 0.65rem; }
 
 textarea {
   width: 100%;
@@ -183,9 +155,7 @@ textarea {
   padding: 1rem;
 }
 
-.popup-card h3 {
-  margin-top: 0;
-}
+.popup-card h3 { margin-top: 0; }
 
 .popup-actions {
   display: flex;
@@ -205,16 +175,12 @@ textarea {
   padding: 0;
   margin: -1px;
   overflow: hidden;
-  clip: rect(0, 0, 0, 0);
+  clip: rect(0,0,0,0);
   border: 0;
 }
 
 @media (max-width: 900px) {
-  main {
-    grid-template-columns: 1fr;
-  }
+  main { grid-template-columns: 1fr; }
 }
 
-[hidden] {
-  display: none !important;
-}
+[hidden] { display: none !important; }
