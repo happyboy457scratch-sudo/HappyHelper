@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en-GB">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>StudyMate AI | KS3, KS4, UK & US Exam Help</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">AI revision support for students</p>
+        <h1>StudyMate AI</h1>
+        <p class="subtitle">
+          Real-time ChatGPT help for KS3, KS4, GCSE, AQA, Edexcel, OCR, WJEC,
+          Cambridge IGCSE, SAT, AP and more.
+        </p>
+      </div>
+      <button id="loginBtn" class="login-btn" aria-live="polite">Log in</button>
+    </header>
+
+    <main>
+      <section class="subjects-card">
+        <h2>Subjects covered</h2>
+        <p>Ask across all core and optional subjects:</p>
+        <ul class="subjects-grid">
+          <li>Mathematics</li>
+          <li>English Language</li>
+          <li>English Literature</li>
+          <li>Biology</li>
+          <li>Chemistry</li>
+          <li>Physics</li>
+          <li>History</li>
+          <li>Geography</li>
+          <li>Computer Science</li>
+          <li>Economics</li>
+          <li>Business Studies</li>
+          <li>Modern Languages</li>
+          <li>Psychology</li>
+          <li>Sociology</li>
+          <li>Religious Studies</li>
+          <li>Art & Design</li>
+        </ul>
+      </section>
+
+      <section class="chat-card" aria-label="AI chatbot">
+        <h2>Ask StudyMate AI</h2>
+        <p class="hint">
+          Guests can ask one free question. Log in for unlimited questions.
+        </p>
+        <p class="hint">
+          Tip: type <strong>"ask me to create flash cards"</strong> for a direct flashcard tool link.
+        </p>
+
+        <div class="api-box">
+          <label for="apiKeyInput">OpenAI API key</label>
+          <input id="apiKeyInput" type="password" placeholder="sk-..." autocomplete="off" />
+          <small>Key is used only in your browser for this demo.</small>
+        </div>
+
+        <div id="chatLog" class="chat-log" role="log" aria-live="polite"></div>
+
+        <form id="chatForm" class="chat-form">
+          <label for="questionInput" class="visually-hidden">Your question</label>
+          <textarea
+            id="questionInput"
+            rows="3"
+            placeholder="e.g. Explain how to solve simultaneous equations"
+            required
+          ></textarea>
+          <button id="sendBtn" type="submit">Send question</button>
+        </form>
+      </section>
+    </main>
+
+    <div id="loginPopup" class="popup-overlay" role="dialog" aria-modal="true" aria-labelledby="popupTitle" hidden>
+      <div class="popup-card">
+        <h3 id="popupTitle">Please log in to continue</h3>
+        <p>
+          You’ve used your free question. Log in to unlock unlimited AI tutoring
+          across all subjects and exam boards.
+        </p>
+        <div class="popup-actions">
+          <button id="popupLoginBtn" class="primary">Log in now</button>
+          <button id="popupCloseBtn" class="secondary">Close</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
