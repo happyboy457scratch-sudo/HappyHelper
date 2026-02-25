@@ -1,0 +1,73 @@
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  color: white;
+}
+
+.hero {
+  padding: 40px;
+  text-align: center;
+}
+
+.eyebrow {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.subtitle {
+  max-width: 600px;
+  margin: 10px auto;
+}
+
+.login-btn {
+  padding: 10px 20px;
+  background: white;
+  color: #2a5298;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+main {
+  padding: 30px;
+  display: grid;
+  gap: 30px;
+}
+
+.subjects-card, .chat-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 20px;
+  border-radius: 12px;
+}
+
+.subjects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+  list-style: none;
+  padding: 0;
+}
+
+.chat-log {
+  background: rgba(0,0,0,0.3);
+  padding: 10px;
+  min-height: 100px;
+  margin-bottom: 10px;
+  border-radius: 6px;
+}
+
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 6px;
+  border: none;
+  margin-bottom: 10px;
+}
+
+button {
+  padding: 10px 15px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+}
