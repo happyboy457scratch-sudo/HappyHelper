@@ -1,243 +1,133 @@
-:root {
-  color-scheme: dark;
-  --bg: #0b1120;
-  --card: #121b32;
-  --text: #e2e8f0;
-  --muted: #93a4c2;
-  --primary: #60a5fa;
-  --accent: #818cf8;
-  --border: #293550;
+const chatForm = document.getElementById('chatForm');
+const questionInput = document.getElementById('questionInput');
+const chatLog = document.getElementById('chatLog');
+const sendBtn = document.getElementById('sendBtn');
+const loginBtn = document.getElementById('loginBtn');
+const loginPopup = document.getElementById('loginPopup');
+const popupLoginBtn = document.getElementById('popupLoginBtn');
+const popupCloseBtn = document.getElementById('popupCloseBtn');
+
+let isLoggedIn = false;
+let guestQuestionCount = 0;
+const flashcardsUrl = 'https://happyboy457scratch-sudo.github.io/FlashcardGen/';
+
+function addMessage(role, text) {
+  const bubble = document.createElement('p');
+  bubble.className = `message ${role}`;
+  bubble.textContent = text;
+  chatLog.appendChild(bubble);
+  chatLog.scrollTop = chatLog.scrollHeight;
 }
 
-* {
-  box-sizing: border-box;
+function setBusyState(isBusy) {
+  sendBtn.disabled = isBusy;
+  sendBtn.textContent = isBusy ? 'Thinking…' : 'Send question';
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
-  font-family: Inter, "Segoe UI", Roboto, Arial, sans-serif;
-  background: radial-gradient(circle at top, #172554, var(--bg) 50%);
-  color: var(--text);
-  line-height: 1.5;
+function setLoggedIn() {
+  isLoggedIn = true;
+  loginBtn.textContent = 'Logged in ✓';
+  loginBtn.disabled = true;
+  loginPopup.hidden = true;
+  addMessage('bot', 'Welcome back! You now have unlimited questions.');
 }
 
-.hero,
-main {
-  width: min(1040px, 92%);
-  margin: 0 auto;
+function showLoginPopup() {
+  loginPopup.hidden = false;
 }
 
-.hero {
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  align-items: start;
-  padding: 2.5rem 0 1.2rem;
-}
+async function askChatGPT(question, apiKey) {
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${apiKey}`
+    },
+    body: JSON.stringify({
+      model: 'gpt-4o-mini',
+      temperature: 0.4,
+      messages: [
+        {
+          role: 'system',
+          content:
+            'You are StudyMate AI, a helpful tutor for KS3/KS4 students and UK/US exam boards. Explain clearly, use short steps, include exam technique, and keep answers age-appropriate.'
+        },
+        {
+          role: 'user',
+          content: question
+        }
+      ]
+    })
+  });
 
-.eyebrow {
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-size: 0.75rem;
-  color: var(--primary);
-  margin: 0;
-}
-
-h1 {
-  margin: 0.3rem 0;
-  font-size: clamp(1.8rem, 3vw, 2.6rem);
-}
-
-.subtitle {
-  max-width: 70ch;
-  margin: 0;
-  color: var(--muted);
-}
-
-.login-btn,
-.chat-form button,
-.popup-actions button {
-  border: 0;
-  border-radius: 0.6rem;
-  padding: 0.7rem 1rem;
-  font-weight: 600;
-  cursor: pointer;
-}
-
-.login-btn,
-.chat-form button,
-.popup-actions .primary {
-  background: linear-gradient(130deg, var(--primary), var(--accent));
-  color: #0f172a;
-}
-
-.chat-form button:disabled {
-  opacity: 0.65;
-  cursor: not-allowed;
-}
-
-main {
-  display: grid;
-  grid-template-columns: 1fr 1.4fr;
-  gap: 1.2rem;
-  padding-bottom: 2.5rem;
-}
-
-.subjects-card,
-.chat-card {
-  background: color-mix(in oklab, var(--card), #000 8%);
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  padding: 1.1rem;
-  box-shadow: 0 8px 26px rgba(0, 0, 0, 0.25);
-}
-
-h2 {
-  margin: 0;
-  font-size: 1.2rem;
-}
-
-.subjects-grid {
-  margin: 0.75rem 0 0;
-  padding: 0;
-  list-style: none;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.5rem;
-}
-
-.subjects-grid li {
-  background: #1a2746;
-  border-radius: 0.5rem;
-  padding: 0.45rem 0.6rem;
-  font-size: 0.92rem;
-}
-
-.hint {
-  margin-top: 0.4rem;
-  color: var(--muted);
-}
-
-.api-box {
-  display: grid;
-  gap: 0.35rem;
-  margin: 0.8rem 0;
-}
-
-.api-box label {
-  font-weight: 600;
-  font-size: 0.92rem;
-}
-
-.api-box input {
-  border: 1px solid var(--border);
-  background: #0e162e;
-  color: var(--text);
-  border-radius: 0.7rem;
-  padding: 0.55rem 0.65rem;
-  font: inherit;
-}
-
-.api-box small {
-  color: var(--muted);
-}
-
-.chat-log {
-  min-height: 280px;
-  max-height: 340px;
-  overflow: auto;
-  border: 1px solid var(--border);
-  border-radius: 0.8rem;
-  padding: 0.8rem;
-  margin-bottom: 0.75rem;
-  background: #0e162e;
-}
-
-.message {
-  padding: 0.55rem 0.7rem;
-  border-radius: 0.7rem;
-  width: fit-content;
-  max-width: 90%;
-  margin: 0 0 0.65rem;
-  white-space: pre-wrap;
-}
-
-.message.user {
-  margin-left: auto;
-  background: #25304f;
-}
-
-.message.bot {
-  background: #1a2746;
-}
-
-.chat-form {
-  display: grid;
-  gap: 0.65rem;
-}
-
-textarea {
-  width: 100%;
-  resize: vertical;
-  min-height: 70px;
-  border: 1px solid var(--border);
-  background: #0e162e;
-  color: var(--text);
-  border-radius: 0.7rem;
-  padding: 0.65rem;
-  font: inherit;
-}
-
-.popup-overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(2, 6, 23, 0.65);
-  display: grid;
-  place-items: center;
-  padding: 1rem;
-}
-
-.popup-card {
-  width: min(460px, 100%);
-  background: #121b32;
-  border: 1px solid var(--border);
-  border-radius: 1rem;
-  padding: 1rem;
-}
-
-.popup-card h3 {
-  margin-top: 0;
-}
-
-.popup-actions {
-  display: flex;
-  justify-content: end;
-  gap: 0.55rem;
-}
-
-.popup-actions .secondary {
-  background: #293550;
-  color: var(--text);
-}
-
-.visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  border: 0;
-}
-
-@media (max-width: 900px) {
-  main {
-    grid-template-columns: 1fr;
+  if (!response.ok) {
+    const errorBody = await response.json().catch(() => ({}));
+    const message = errorBody?.error?.message || 'Unable to reach the ChatGPT API.';
+    throw new Error(message);
   }
+
+  const data = await response.json();
+  return data.choices?.[0]?.message?.content?.trim() || 'No response returned.';
 }
 
-[hidden] {
-  display: none !important;
-}
+chatForm.addEventListener('submit', async (event) => {
+  event.preventDefault();
+
+  const question = questionInput.value.trim();
+  if (!question) return;
+
+  if (!isLoggedIn && guestQuestionCount >= 1) {
+    showLoginPopup();
+    return;
+  }
+
+  const lowerQuestion = question.toLowerCase();
+  if (lowerQuestion.includes('ask me to create flash cards') || lowerQuestion.includes('create flash cards') || lowerQuestion.includes('create flashcards') || lowerQuestion.includes('flash cards') || lowerQuestion.includes('flashcards')) {
+    addMessage('user', question);
+    addMessage('bot', `Great idea — use the flashcard generator here: ${flashcardsUrl}`);
+    window.open(flashcardsUrl, '_blank', 'noopener,noreferrer');
+    questionInput.value = '';
+
+    if (!isLoggedIn) {
+      guestQuestionCount += 1;
+    }
+
+    return;
+  }
+
+  let apiKey = localStorage.getItem('studymate_openai_api_key') || '';
+  if (!apiKey) {
+    const typedKey = window.prompt('Enter your OpenAI API key (sk-...) to continue:');
+    apiKey = (typedKey || '').trim();
+    if (!apiKey) {
+      addMessage('bot', 'No API key entered, so I cannot call ChatGPT yet.');
+      return;
+    }
+    localStorage.setItem('studymate_openai_api_key', apiKey);
+  }
+
+  addMessage('user', question);
+  questionInput.value = '';
+
+  if (!isLoggedIn) {
+    guestQuestionCount += 1;
+  }
+
+  setBusyState(true);
+  try {
+    const reply = await askChatGPT(question, apiKey);
+    addMessage('bot', reply);
+  } catch (error) {
+    addMessage('bot', `ChatGPT API error: ${error.message}`);
+  } finally {
+    setBusyState(false);
+  }
+});
+
+loginBtn.addEventListener('click', setLoggedIn);
+popupLoginBtn.addEventListener('click', setLoggedIn);
+popupCloseBtn.addEventListener('click', () => {
+  loginPopup.hidden = true;
+});
+
+addMessage('bot', 'Hi! I can help with KS3, KS4 and UK/US exam board questions. Ask your first question. Suggestion: ask me to create flash cards.');
